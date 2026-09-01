@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "product": "FortiSOAR",
+  "categories": [
+    "widgets",
+    "connectors",
+    "playbooks",
+    "solution-packs"
+  ],
+  "contents": [
+    {
+      "id": "fortigateaiassistant",
+      "type": "widget",
+      "title": "Fortigate Ai Assistant",
+      "version": "1.0.3",
+      "path": "widgets/fortigate-ai-assistant",
+      "compatibility": [
+        "8.0.0"
+      ]
+    }
+  ]
+}
+

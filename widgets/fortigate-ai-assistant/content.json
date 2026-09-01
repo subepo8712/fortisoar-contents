@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "fortigateaiassistant",
+  "type": "widget",
+  "title": "Fortigate Ai Assistant",
+  "version": "1.0.3",
+  "publisher": "Fortinet-Korean",
+  "source": "src/fortigateaiassistant-1.0.3",
+  "package": "dist/fortigateaiassistant-1_0_3.tgz",
+  "sha256": "c55c7fde1be2304c5fd957b2252a510e59f28cd38279507d7f3ad81447c90cc3",
+  "compatibility": [
+    "8.0.0"
+  ],
+  "testedOn": [
+    {
+      "version": "8.0.0-6034",
+      "date": "2026-09-01",
+      "result": "passed"
+    }
+  ],
+  "deployment": {
+    "contentHubType": "Widget",
+    "replaceExistingVersion": true,
+    "cacheRefreshRequired": true
+  },
+  "reuseNotes": [
+    "Environment-specific FortiGate and FortiAI Config IDs are intentionally not bundled."
+  ]
+}

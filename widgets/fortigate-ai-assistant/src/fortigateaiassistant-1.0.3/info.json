@@ -1,0 +1,40 @@
+{
+    "name": "fortigateaiassistant",
+    "title": "Fortigate Ai Assistant",
+    "subTitle": "FortiGate read-only assistant (agentic function-calling)",
+    "version": "1.0.3",
+    "publishedDate": 1784822245,
+    "releaseNotes": "v1.0.3 hotfix: (1) Settings localization — removed hard-coded Traditional Chinese connector-picker labels and linked settings states to the widget language. (2) Large firewall fleets — added an always-visible selection/health summary, auto-collapsed list above six devices, search, and a bounded responsive card grid. (3) Health sweep scaling — limited live probes to five concurrent requests and shortened long failure summaries. v1.0.3: (1) Answer quality \u2014 meta-prompts redesigned in canonical English with explicit final-answer rules (verdict-first line, evidence with policy IDs\/counts, markdown table for 3+ items, single caveat line for unevaluated factors, one actionable recommendation) and the answer language is enforced from the widget language setting; all model-facing strings (tool descriptions, computed-tool notes, audit findings, errors) unified to English for multilingual consistency. (2) Trilingual UI (Korean\/English\/Chinese) \u2014 header language selector switches all labels, system messages and default favorite prompts instantly; custom favorites are preserved. (3) Startup health sweep \u2014 on widget launch every registered FortiGate is live-probed in parallel and a localized summary (healthy\/down per firewall) is posted to the chat; probeHealth now returns a promise. v1.0.1 (correctness + performance): (1) Group-aware matching \u2014 check_connectivity \/ find_policies_by_ip now resolve address groups (upward transitive closure over nested groups, O(V+E) BFS) and service groups (recursive, cycle-safe) so policies referencing groups are matched correctly; fixes false BLOCKED \/ missed related_policies. (2) Per-question fetch memoization \u2014 identical (op,config,params) connector reads within one question share a single cached promise, deduplicating parallel and cross-round fetches. (3) Cross-round tool-call dedup in the agent loop \u2014 repeated identical function calls reuse prior results instead of re-executing, preserving MAX_ROUNDS budget. (4) audit_policies unused-address detection now uses downward group closure (addresses used only via groups are no longer flagged unused); exposure_scan resolves risky ports through service groups. Prior: Design system pass: CSS design tokens (colors\/typography\/radii as variables), semantic color separation (brand teal vs success-green vs user-indigo vs warn\/danger), unified button system, keyboard focus rings on all controls, keyboard-accessible firewall cards. Chat now renders Markdown safely (bold\/lists\/tables\/code\/links, HTML-escaped + XSS-hardened) with per-message timestamp and copy button. Firewall cards compacted (single health line, hover-reveal refresh); example chips merged into editable Favorite prompts. Prior: fixed the chat area growing infinitely with no scroll: root now has max-height:96vh + overflow:hidden (bounds height even when the parent container is auto-height) and the messages list uses min-height:0 so it scrolls within that bound. Also: firewall status cards at the top (which firewalls are controlled: name\/vdom\/short config-id, click to switch active) with connector Health Status (native health_status from \/api\/integration\/configuration\/ + on-demand live probe) and editable Favorite prompt cards near the input (click to send, add\/remove\/edit). Plus full-height responsive chat layout, multi-firewall settings, and 6 read-only compute tools (check_connectivity, audit_policies, analyze_logs, exposure_scan, expand_group, compare_firewalls).",
+    "metadata": {
+        "description": "FortiGate read-only assistant. FortiAI (create_responses) selects read-only tools via function-calling; the widget executes them with filters through the FortiGate connector, trims\/counts results client-side, and feeds only small summaries back \u2014 avoiding large-payload LLM failures.",
+	    "logo": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNDhweCIgdmlld0JveD0iMCAtOTYwIDk2MCA5NjAiIHdpZHRoPSI0OHB4IiBmaWxsPSIjZmZmZiI+PHBhdGggZD0iTTUyMS00MzguODRxMjktMjguODUgMjktNzFRNTUwLTU1MiA1MjEuMTYtNTgxcS0yOC44NS0yOS03MS0yOVE0MDgtNjEwIDM3OS01ODEuMTZxLTI5IDI4Ljg1LTI5IDcxUTM1MC00NjggMzc4Ljg0LTQzOXEyOC44NSAyOSA3MSAyOVE0OTItNDEwIDUyMS00MzguODRaTTY0My0yNzQgNTM5LTM3OHEtMjIgMTQtNDQuNSAyMXQtNDQuMDMgN1EzODQtMzUwIDMzNy0zOTd0LTQ3LTExM3EwLTY2IDQ3LTExM3QxMTMtNDdxNjYgMCAxMTMgNDd0NDcgMTEzLjQ3cTAgMjEuNTMtNy41IDQ0LjAzVDU4MS00MjFsMTA1IDEwNS00MyA0MlpNMTgwLTEyMHEtMjQgMC00Mi0xOHQtMTgtNDJ2LTE3Mmg2MHYxNzJoMTcydjYwSDE4MFptNDI4IDB2LTYwaDE3MnYtMTcyaDYwdjE3MnEwIDI0LTE4IDQydC00MiAxOEg2MDhaTTEyMC02MDh2LTE3MnEwLTI0IDE4LTQydDQyLTE4aDE3MnY2MEgxODB2MTcyaC02MFptNjYwIDB2LTE3Mkg2MDh2LTYwaDE3MnEyNCAwIDQyIDE4dDE4IDQydjE3MmgtNjBaIi8+PC9zdmc+",
+        "pages": [],
+        "category": [
+            "Machine Learning"
+        ],
+        "contexts": [
+            "drawer"
+        ],
+        "certified": "No",
+        "publisher": "Fortinet-Korean",
+        "multiFirewallQuery": true,
+        "compatibility": [
+            "8.0.0"
+        ],
+        "standalone": true,
+        "windowClass": "Half Width",
+        "view": {
+            "popup": "custom",
+            "draggable": true,
+            "enableFor": [
+                "main.section_dashboard",
+                "main.modules.list",
+                "viewPanel.modulesDetail",
+                "main.playbookDetail",
+                "main.marketplace.workspace"
+            ],
+            "activeBackground": true
+        }
+    },
+    "development": false
+}

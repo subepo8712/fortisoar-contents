@@ -1,0 +1,8 @@
+.DS_Store
+._*
+*.swp
+*.tmp
+*.bak
+__pycache__/
+.pytest_cache/
+

@@ -1,0 +1,41 @@
+<!-- Copyright start
+  Copyright (C) 2008 - 2026 Fortinet Inc.
+  All rights reserved.
+  FORTINET CONFIDENTIAL & FORTINET PROPRIETARY SOURCE CODE
+  Copyright end -->
+<form data-ng-submit="save()" class="noMargin" name="editWidgetForm" novalidate>
+    <div class="modal-header">
+        <h3 class="modal-title col-md-9">FortiGate AI Assistant 설정</h3>
+        <button type="button" class="close" data-ng-click="cancel()" data-dismiss="modal" aria-label="Close" id="close-edit-widget-form-btn">
+            <div aria-hidden="true" class="version-button">+</div>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="alert alert-info" style="font-size:12px;padding:8px 10px;">
+            여기서 지정한 값은 <b>초기(기본) 방화벽</b>으로 사용됩니다. 여러 대의 FortiGate 등록·전환·비교는
+            위젯 우측 상단 <b>&#9881; 설정</b>에서 관리하세요.
+        </div>
+        <div class="form-group">
+            <label>FortiGate 커넥터 Config ID <span style="color:#d9534f">*</span></label>
+            <input type="text" class="form-control" data-ng-model="config.fortigateConfigId"
+                   placeholder="예: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+            <small class="text-muted">Connectors &gt; Fortinet FortiGate 의 사용할 설정(config) id.</small>
+        </div>
+        <div class="form-group">
+            <label>Connector Version</label>
+            <input type="text" class="form-control" data-ng-model="config.fortigateVersion" placeholder="5.4.0">
+        </div>
+        <div class="form-group">
+            <label>VDOM</label>
+            <input type="text" class="form-control" data-ng-model="config.vdom" placeholder="root">
+        </div>
+        <div class="form-group">
+            <label>FortiAI Config ID</label>
+            <input type="text" class="form-control" data-ng-model="config.fortiaiConfigId" placeholder="FortiAI proxy config id">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button id="edit-widget-save" type="submit" class="btn btn-sm btn-primary"><i class="icon icon-check margin-right-sm"></i>Save</button>
+        <button id="edit-widget-cancel" type="button" class="btn btn-sm btn-default" data-ng-click="cancel()"><i class="icon icon-close margin-right-sm"></i>Close</button>
+    </div>
+</form>
