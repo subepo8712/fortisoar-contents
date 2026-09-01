@@ -16,8 +16,18 @@
       "path": "widgets/fortigate-ai-assistant",
       "compatibility": [
         "8.0.0"
+      ],
+      "verifiedFortiSOARVersions": [
+        "8.0.0-6034"
+      ],
+      "guide": "widgets/fortigate-ai-assistant/README.md#적용-가이드",
+      "features": [
+        "Multilingual FortiGate assistant UI and settings",
+        "Multi-firewall registration, selection, health checks, and comparison",
+        "Large-fleet summary, search, auto-collapse, and responsive card grid",
+        "Read-only policy, connectivity, log, exposure, and group analysis",
+        "Bounded health checks with at most five concurrent requests"
       ]
     }
   ]
 }
-

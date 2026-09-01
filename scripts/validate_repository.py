@@ -14,6 +14,21 @@ import tarfile
 
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_CATEGORIES = {"widgets", "connectors", "playbooks", "solution-packs"}
+REQUIRED_CONTENT_FIELDS = {
+    "id",
+    "type",
+    "title",
+    "version",
+    "compatibility",
+    "features",
+    "verifiedOn",
+    "applicationGuide",
+}
+REQUIRED_README_HEADINGS = {
+    "## 지원 기능",
+    "## 검증된 FortiSOAR 버전",
+    "## 적용 가이드",
+}
 REQUIRED_WIDGET_FILES = {
     "info.json",
     "view.html",
@@ -51,17 +66,46 @@ def validate_javascript(source: Path) -> None:
         subprocess.run([node, "--check", str(source / filename)], check=True)
 
 
+def validate_content_documentation(directory: Path, manifest: dict) -> None:
+    missing_fields = sorted(REQUIRED_CONTENT_FIELDS - manifest.keys())
+    if missing_fields:
+        fail(f"{directory.relative_to(ROOT)}/content.json missing: {', '.join(missing_fields)}")
+
+    features = manifest.get("features")
+    if not isinstance(features, list) or not features or any(not isinstance(item, str) or not item.strip() for item in features):
+        fail(f"{directory.relative_to(ROOT)}/content.json requires a non-empty features list")
+
+    verified = manifest.get("verifiedOn")
+    if not isinstance(verified, list) or not verified:
+        fail(f"{directory.relative_to(ROOT)}/content.json requires verifiedOn records")
+    for index, record in enumerate(verified):
+        if not isinstance(record, dict):
+            fail(f"verifiedOn[{index}] must be an object in {directory.relative_to(ROOT)}")
+        required = {"fortiSOARVersion", "date", "result", "scope"}
+        missing = sorted(required - record.keys())
+        if missing:
+            fail(f"verifiedOn[{index}] missing {', '.join(missing)} in {directory.relative_to(ROOT)}")
+        if not isinstance(record["fortiSOARVersion"], str) or not record["fortiSOARVersion"].strip():
+            fail(f"verifiedOn[{index}] requires a FortiSOAR version in {directory.relative_to(ROOT)}")
+        if record["result"] != "passed":
+            fail(f"verifiedOn[{index}] is not a passed verification in {directory.relative_to(ROOT)}")
+        if not isinstance(record["scope"], list) or not record["scope"]:
+            fail(f"verifiedOn[{index}] requires a verification scope in {directory.relative_to(ROOT)}")
+
+    guide_reference = manifest.get("applicationGuide")
+    if not isinstance(guide_reference, str) or "#" not in guide_reference:
+        fail(f"applicationGuide must point to a README section in {directory.relative_to(ROOT)}")
+    guide_path = directory / guide_reference.split("#", 1)[0]
+    if not guide_path.is_file():
+        fail(f"application guide not found: {guide_path.relative_to(ROOT)}")
+    readme = guide_path.read_text(encoding="utf-8")
+    missing_headings = sorted(heading for heading in REQUIRED_README_HEADINGS if heading not in readme)
+    if missing_headings:
+        fail(f"{guide_path.relative_to(ROOT)} missing headings: {', '.join(missing_headings)}")
+
+
 def validate_widget(directory: Path, manifest: dict) -> None:
-    required_fields = {
-        "id",
-        "type",
-        "title",
-        "version",
-        "source",
-        "package",
-        "sha256",
-        "compatibility",
-    }
+    required_fields = {"source", "package", "sha256"}
     missing_fields = sorted(required_fields - manifest.keys())
     if missing_fields:
         fail(f"{directory.relative_to(ROOT)}/content.json missing: {', '.join(missing_fields)}")
@@ -139,6 +183,15 @@ def main() -> int:
         for field in ("id", "type", "title", "version", "compatibility"):
             if entry.get(field) != manifest.get(field):
                 fail(f"catalog/content mismatch for {entry['path']}: {field}")
+        validate_content_documentation(directory, manifest)
+        if entry.get("features") != manifest.get("features"):
+            fail(f"catalog/content mismatch for {entry['path']}: features")
+        verified_versions = [record["fortiSOARVersion"] for record in manifest["verifiedOn"]]
+        if entry.get("verifiedFortiSOARVersions") != verified_versions:
+            fail(f"catalog/content mismatch for {entry['path']}: verifiedFortiSOARVersions")
+        expected_guide = f"{entry['path']}/{manifest['applicationGuide']}"
+        if entry.get("guide") != expected_guide:
+            fail(f"catalog/content mismatch for {entry['path']}: guide")
         if entry["type"] == "widget":
             validate_widget(directory, manifest)
         else:
@@ -154,4 +207,3 @@ if __name__ == "__main__":
     except (ValueError, subprocess.CalledProcessError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         raise SystemExit(1)
-

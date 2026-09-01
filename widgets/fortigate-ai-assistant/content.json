@@ -11,13 +11,28 @@
   "compatibility": [
     "8.0.0"
   ],
-  "testedOn": [
+  "features": [
+    "Multilingual FortiGate assistant UI and settings",
+    "Multi-firewall registration, selection, health checks, and comparison",
+    "Large-fleet summary, search, auto-collapse, and responsive card grid",
+    "Read-only policy, connectivity, log, exposure, and group analysis",
+    "Bounded health checks with at most five concurrent requests"
+  ],
+  "verifiedOn": [
     {
-      "version": "8.0.0-6034",
+      "fortiSOARVersion": "8.0.0-6034",
       "date": "2026-09-01",
-      "result": "passed"
+      "result": "passed",
+      "scope": [
+        "Package structure and JavaScript syntax validation",
+        "Same-version installation on FortiSOAR",
+        "Content Hub recognition and preview launch",
+        "HTTP 200 loading of installed widget assets",
+        "Localization and large-firewall-fleet controller behavior"
+      ]
     }
   ],
+  "applicationGuide": "README.md#적용-가이드",
   "deployment": {
     "contentHubType": "Widget",
     "replaceExistingVersion": true,
